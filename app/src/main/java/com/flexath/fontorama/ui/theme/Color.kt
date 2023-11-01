@@ -19,7 +19,7 @@ val LightOnTertiaryColor = Color(0xFFFFFFFF) // Light On Tertiary Color
 
 
 // Dark Mode
-val DarkPrimaryColor = Color(0xFF1a1a1a) // Dark Primary Color
+val DarkPrimaryColor = Color(0xFF3498db) // Dark Primary Color
 val DarkOnPrimaryColor = Color(0xFFffffff) // Dark On Primary Color
 
 val DarkBackgroundColor = Color(0xFF121212) // Dark Background Color

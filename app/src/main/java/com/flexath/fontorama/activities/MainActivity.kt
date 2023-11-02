@@ -94,6 +94,7 @@ import com.flexath.fontorama.ui.menu.BottomNavigationBar
 import com.flexath.fontorama.ui.nav_graph.NavGraphHost
 import com.flexath.fontorama.ui.screens.Screen
 import com.flexath.fontorama.ui.theme.Anton
+import com.flexath.fontorama.ui.theme.ColorDarkGray
 import com.flexath.fontorama.ui.theme.DarkColorScheme
 import com.flexath.fontorama.ui.theme.FontoramaTheme
 import com.flexath.fontorama.ui.theme.LightColorScheme
@@ -258,7 +259,7 @@ fun BottomNavigationBarSetUp(navHostController: NavHostController) {
             modifier = Modifier
                 .background(
                     color = changeColorWithDisplayMode(
-                        darkColor = DarkColorScheme.background,
+                        darkColor = DarkColorScheme.surface,
                         lightColor = LightColorScheme.background
                     )
                 ).fillMaxWidth(),
@@ -267,7 +268,7 @@ fun BottomNavigationBarSetUp(navHostController: NavHostController) {
             Row (
                 modifier = Modifier.background(
                     color = if (isSystemInDarkTheme()) {
-                        DarkColorScheme.background
+                        DarkColorScheme.surface
                     } else {
                         LightColorScheme.background
                     }
@@ -295,7 +296,7 @@ fun BottomNavigationBarSetUp(navHostController: NavHostController) {
                                 .background(
                                     color = if (index == bottomNavigationItemIndex) {
                                         changeColorWithDisplayMode(
-                                            darkColor = Color.LightGray,
+                                            darkColor = Color.DarkGray,
                                             lightColor = Color.LightGray
                                         )
                                     } else {

@@ -34,3 +34,8 @@ val DarkOnSecondaryColor = Color(0xFF000000) // Dark On Secondary Color
 
 val DarkTertiaryColor = Color(0xFF7D5260) // Dark Tertiary Color
 val DarkOnTertiaryColor = Color(0xFFFFFFFF) // Dark On Tertiary Color
+
+
+// Others
+val ColorDarkGray = Color(0xFF333333)
+val ColorLightGray = Color(0xFF4d4d4d)

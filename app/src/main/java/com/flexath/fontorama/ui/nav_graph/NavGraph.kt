@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.flexath.fontorama.ui.screens.FavouriteScreen
 import com.flexath.fontorama.ui.screens.Screen
 import com.flexath.fontorama.ui.screens.SearchScreen
 import com.flexath.fontorama.ui.screens.SettingScreen
@@ -26,6 +27,12 @@ fun NavGraphHost(navHostController: NavHostController, values: PaddingValues) {
                 route = Screen.ScreenSearch.route
             ) {
                 SearchScreen(navHostController, values)
+            }
+
+            composable(
+                route = Screen.ScreenFavourite.route
+            ) {
+                FavouriteScreen(navHostController, values)
             }
 
             composable(

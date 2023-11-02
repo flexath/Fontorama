@@ -122,4 +122,11 @@ dependencies {
     implementation("io.reactivex.rxjava3:rxkotlin:3.0.1")
     implementation("com.github.akarnokd:rxjava3-retrofit-adapter:3.0.0")
     implementation("io.reactivex.rxjava3:rxjava:3.1.5")
+
+    // Animated Navigation Bar
+    implementation("com.exyte:animated-navigation-bar:1.0.0")
+
+    // Lottie Animation
+    val lottieVersion = "6.1.0"
+    implementation("com.airbnb.android:lottie-compose:$lottieVersion")
 }

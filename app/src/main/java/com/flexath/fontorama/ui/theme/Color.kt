@@ -2,7 +2,7 @@ package com.flexath.fontorama.ui.theme
 
 import androidx.compose.ui.graphics.Color
 // Light Mode
-val LightPrimaryColor = Color(0xFF3498db) // Light Primary Color
+val LightPrimaryColor = Color(0xFF2283c3) // Light Primary Color
 val LightOnPrimaryColor = Color(0xFFffffff) // Light On Primary Color
 
 val LightBackgroundColor = Color(0xFFf8f8f8) // Light Background Color
@@ -16,6 +16,7 @@ val LightOnSecondaryColor = Color(0xFF000000) // Light On Secondary Color
 
 val LightTertiaryColor = Color(0xFF7D5260) // Light Tertiary Color
 val LightOnTertiaryColor = Color(0xFFFFFFFF) // Light On Tertiary Color
+
 
 
 // Dark Mode

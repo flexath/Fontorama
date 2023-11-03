@@ -1,11 +1,14 @@
 package com.flexath.fontorama.ui.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
@@ -28,6 +31,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ClipboardManager
+import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.rememberNestedScrollInteropConnection
 import androidx.compose.ui.text.AnnotatedString
@@ -41,12 +45,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.exyte.animatednavbar.utils.noRippleClickable
 import com.flexath.fontorama.activities.changeColorWithDisplayMode
 import com.flexath.fontorama.ui.theme.ColorDarkGray
 import com.flexath.fontorama.ui.theme.ColorLightGray
 import com.flexath.fontorama.ui.theme.LightColorScheme
 import com.flexath.fontorama.ui.theme.RobotoCondensed
-import com.flexath.fontorama.ui.theme.fontFamily
 import com.flexath.fontorama.utils.textResultStyleList
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -77,7 +81,6 @@ fun HomeScreen(
 
 @Composable
 fun TextFieldSection() {
-    val nestedScrolling = rememberNestedScrollInteropConnection()
 
     var text by rememberSaveable {
         mutableStateOf("")
@@ -201,8 +204,7 @@ fun TextResultSection() {
         ),
         modifier = Modifier
             .padding(start = 20.dp, end = 20.dp, top = 20.dp)
-            .fillMaxWidth()
-            .fillMaxSize(3f),
+            .fillMaxWidth(),
         colors = CardDefaults.cardColors(
             containerColor = changeColorWithDisplayMode(
                 darkColor = ColorLightGray,
@@ -233,23 +235,35 @@ fun TextResultSection() {
 
         )
 
-        LazyColumn {
+        LazyColumn(
+            modifier = Modifier
+                .background(
+                    color = changeColorWithDisplayMode(
+                        darkColor = ColorLightGray,
+                        lightColor = Color.White
+                    )
+                )
+                .padding(bottom = 20.dp)
+
+        ) {
             items(textResultStyleList) {
-                TextResult(fontWeight = it.fontWeight, fontFamilyy = it.fontFamily)
+                TextResult(fontWeight = it.fontWeight, fontFamily = it.fontFamily)
             }
         }
     }
 }
 
 @Composable
-fun TextResult(fontWeight: FontWeight, fontFamilyy: FontFamily) {
-    val newText by rememberSaveable {
-        mutableStateOf("Home")
+fun TextResult(fontWeight: FontWeight, fontFamily: FontFamily) {
+    var newText by rememberSaveable {
+        mutableStateOf("Aung Thiha")
     }
 
     val context = LocalContext.current
 
     val selectedText by remember { mutableStateOf(AnnotatedString(newText)) }
+
+    val clipboardManager: ClipboardManager = LocalClipboardManager.current
 
     SelectionContainer {
         Text(
@@ -271,9 +285,18 @@ fun TextResult(fontWeight: FontWeight, fontFamilyy: FontFamily) {
                 )
                 .padding(start = 20.dp, top = 20.dp, bottom = 10.dp)
                 .fillMaxWidth()
+                .clickable {
+                    clipboardManager.setText(selectedText)
+
+                    Toast
+                        .makeText(context, selectedText.text, Toast.LENGTH_SHORT)
+                        .show()
+                }
         )
     }
 }
+
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview(showSystemUi = true)

@@ -101,7 +101,7 @@ val provider = GoogleFont.Provider(
     certificates = R.array.com_google_android_gms_fonts_certs
 )
 
-val fontName = GoogleFont("Anton")
+val fontName = GoogleFont("BebasNeue")
 
 val fontFamily = FontFamily(
     Font(googleFont = fontName, fontProvider = provider, weight = FontWeight.Bold)

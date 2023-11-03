@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -128,7 +129,7 @@ fun NavigationSetup(navHostController: NavHostController) {
 
     val coroutineScope = rememberCoroutineScope()
 
-    val scrollingBehaviour = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    val scrollingBehaviour = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
     ModalNavigationDrawer(
         drawerContent = {
@@ -222,10 +223,10 @@ fun NavigationSetup(navHostController: NavHostController) {
                         mutableIntStateOf(0)
                     }
 
-                    Surface (
+                    Surface(
                         shadowElevation = 20.dp,
                     ) {
-                        Box (
+                        Box(
                             modifier = Modifier
                                 .background(
                                     color = changeColorWithDisplayMode(
@@ -236,7 +237,7 @@ fun NavigationSetup(navHostController: NavHostController) {
                                 .fillMaxWidth(),
                             contentAlignment = Alignment.Center
                         ) {
-                            Row (
+                            Row(
                                 modifier = Modifier.background(
                                     color = if (isSystemInDarkTheme()) {
                                         DarkColorScheme.surface
@@ -306,7 +307,7 @@ fun NavigationSetup(navHostController: NavHostController) {
                                             BadgedBox(
                                                 badge = {
                                                     if (navigationItem.hasNew) {
-//                                Badge()
+                                                        Badge()
                                                     }
                                                 }
                                             ) {

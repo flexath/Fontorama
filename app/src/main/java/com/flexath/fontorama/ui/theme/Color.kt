@@ -26,7 +26,7 @@ val DarkOnPrimaryColor = Color(0xFFffffff) // Dark On Primary Color
 val DarkBackgroundColor = Color(0xFF121212) // Dark Background Color
 val DarkOnBackgroundColor = Color(0xFFffffff) // Dark On Background Color
 
-val DarkSurfaceColor = Color(0xFF1a1a1a) // Dark Surface Color
+val DarkSurfaceColor = Color(0xFF4d4d4d) // Dark Surface Color
 val DarkOnSurfaceColor = Color(0xFFffffff) // Dark On Surface Color
 
 val DarkSecondaryColor = Color(0xFFFFC107) // Dark Secondary Color

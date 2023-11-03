@@ -5,6 +5,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.googlefonts.Font
+import androidx.compose.ui.text.googlefonts.GoogleFont
 import androidx.compose.ui.unit.sp
 import com.flexath.fontorama.R
 
@@ -57,6 +59,50 @@ val DMSans = FontFamily(
     Font(R.font.dm_sans_black, FontWeight.Black)
 )
 
+val Roboto = FontFamily(
+    Font(R.font.roboto_light, FontWeight.Light),
+    Font(R.font.roboto_regular, FontWeight.Normal),
+    Font(R.font.roboto_medium, FontWeight.Medium),
+    Font(R.font.roboto_bold, FontWeight.Bold),
+    Font(R.font.roboto_black, FontWeight.Black)
+)
+
+val RobotoCondensed = FontFamily(
+    Font(R.font.roboto_condensed_light, FontWeight.Light),
+    Font(R.font.roboto_condensed_regular, FontWeight.Normal),
+    Font(R.font.roboto_condensed_medium, FontWeight.Medium),
+    Font(R.font.roboto_condensed_semi_bold, FontWeight.SemiBold),
+    Font(R.font.roboto_condensed_bold, FontWeight.Bold),
+    Font(R.font.roboto_condensed_extra_bold, FontWeight.ExtraBold),
+    Font(R.font.roboto_condensed_black, FontWeight.Black)
+)
+
+val Kenia = FontFamily(
+    Font(R.font.kenia_regular, FontWeight.Normal)
+)
+
+val BebasNeue = FontFamily(
+    Font(R.font.bebas_neue_regular, FontWeight.Normal)
+)
+
+val Agbalumo = FontFamily(
+    Font(R.font.agbalumo_regular, FontWeight.Normal)
+)
+
 val Anton = FontFamily(
     Font(R.font.anton_regular, FontWeight.Normal)
+)
+
+
+
+val provider = GoogleFont.Provider(
+    providerAuthority = "com.google.android.gms.fonts",
+    providerPackage = "com.google.android.gms",
+    certificates = R.array.com_google_android_gms_fonts_certs
+)
+
+val fontName = GoogleFont("Anton")
+
+val fontFamily = FontFamily(
+    Font(googleFont = fontName, fontProvider = provider, weight = FontWeight.Bold)
 )

@@ -18,7 +18,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.BadgedBox
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -29,12 +28,14 @@ import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -44,7 +45,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -61,6 +61,7 @@ import com.flexath.fontorama.ui.menu.BottomNavigationBar
 import com.flexath.fontorama.ui.nav_graph.NavGraphHost
 import com.flexath.fontorama.ui.screens.Screen
 import com.flexath.fontorama.ui.theme.Anton
+import com.flexath.fontorama.ui.theme.ColorDarkGray
 import com.flexath.fontorama.ui.theme.DarkColorScheme
 import com.flexath.fontorama.ui.theme.FontoramaTheme
 import com.flexath.fontorama.ui.theme.LightColorScheme
@@ -140,42 +141,70 @@ fun NavigationSetup(navHostController: NavHostController) {
         drawerState = drawerState,
         modifier = Modifier.fillMaxSize()
     ) {
+
+        var title by rememberSaveable {
+            mutableStateOf("Home")
+        }
+
         Scaffold(
             topBar = {
-                CenterAlignedTopAppBar(
-                    title = {
-                        Text(
-                            text = stringResource(id = R.string.app_name),
-                            fontFamily = Anton,
-                            fontSize = 24.sp
-                        )
+                Surface(
+                    shadowElevation = 20.dp
+                ) {
+                    TopAppBar(
+                        title = {
+                            Text(
+                                text = title,
+                                fontFamily = Anton,
+                                fontSize = 28.sp,
+                                color = changeColorWithDisplayMode(
+                                    darkColor = Color.White,
+                                    lightColor = LightColorScheme.primary
+                                )
+                            )
 
-                    },
-                    navigationIcon = {
-                        IconButton(onClick = {
-                            coroutineScope.launch {
-                                drawerState.open()
+                        },
+                        navigationIcon = {
+                            IconButton(onClick = {
+                                coroutineScope.launch {
+                                    drawerState.open()
+                                }
+                            }) {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.menu_burger),
+                                    contentDescription = "Menu Drawer Opened",
+                                    tint = changeColorWithDisplayMode(
+                                        darkColor = DarkColorScheme.primary,
+                                        lightColor = LightColorScheme.primary
+                                    )
+                                )
                             }
-                        }) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.menu_burger),
-                                contentDescription = "Menu Drawer Opened"
-                            )
-                        }
-                    },
-                    actions = {
-                        IconButton(onClick = {
+                        },
+                        actions = {
+                            IconButton(onClick = {
 
-                        }) {
-                            Icon(
-                                imageVector = Icons.Outlined.Info,
-                                contentDescription = "Menu Drawer Opened"
+                            }) {
+                                Icon(
+                                    imageVector = Icons.Outlined.Info,
+                                    contentDescription = "Info Opened",
+                                    tint = changeColorWithDisplayMode(
+                                        darkColor = DarkColorScheme.primary,
+                                        lightColor = LightColorScheme.primary
+                                    )
+                                )
+                            }
+                        },
+                        scrollBehavior = scrollingBehaviour,
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = TopAppBarDefaults.topAppBarColors(
+                            containerColor = changeColorWithDisplayMode(
+                                darkColor = ColorDarkGray,
+                                lightColor = LightColorScheme.background
                             )
-                        }
-                    },
-                    scrollBehavior = scrollingBehaviour,
-                    modifier = Modifier.fillMaxWidth()
-                )
+                        )
+                    )
+                }
+
             },
             bottomBar = {
                 Box(
@@ -187,7 +216,132 @@ fun NavigationSetup(navHostController: NavHostController) {
                             ),
                         ),
                 ) {
-                    BottomNavigationBarSetUp(navHostController)
+//                    BottomNavigationBarSetUp(navHostController)
+
+                    var bottomNavigationItemIndex by rememberSaveable {
+                        mutableIntStateOf(0)
+                    }
+
+                    Surface (
+                        shadowElevation = 20.dp,
+                    ) {
+                        Box (
+                            modifier = Modifier
+                                .background(
+                                    color = changeColorWithDisplayMode(
+                                        darkColor = DarkColorScheme.surface,
+                                        lightColor = LightColorScheme.background
+                                    )
+                                )
+                                .fillMaxWidth(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Row (
+                                modifier = Modifier.background(
+                                    color = if (isSystemInDarkTheme()) {
+                                        DarkColorScheme.surface
+                                    } else {
+                                        LightColorScheme.background
+                                    }
+                                )
+                            ) {
+                                BottomNavigationBar.navigationItems.forEachIndexed { index, navigationItem ->
+                                    Box(
+                                        modifier = Modifier
+                                            .padding(10.dp)
+                                            .noRippleClickable {
+                                                bottomNavigationItemIndex = index
+
+                                                when (bottomNavigationItemIndex) {
+                                                    0 -> {
+                                                        navHostController.popBackStack()
+                                                        title = "Home"
+                                                        navHostController.navigate(Screen.ScreenText.route)
+                                                    }
+
+                                                    1 -> {
+                                                        navHostController.popBackStack()
+                                                        title = "Search"
+                                                        navHostController.navigate(Screen.ScreenSearch.route)
+                                                    }
+
+                                                    2 -> {
+                                                        navHostController.popBackStack()
+                                                        title = "Favourite"
+                                                        navHostController.navigate(Screen.ScreenFavourite.route)
+                                                    }
+
+                                                    else -> {
+                                                        navHostController.popBackStack()
+                                                        title = "Setting"
+                                                        navHostController.navigate(Screen.ScreenSetting.route)
+                                                    }
+                                                }
+                                            },
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        Row(
+                                            modifier = Modifier
+                                                .clip(CircleShape)
+                                                .background(
+                                                    color = if (index == bottomNavigationItemIndex) {
+                                                        changeColorWithDisplayMode(
+                                                            darkColor = Color.DarkGray,
+                                                            lightColor = Color.LightGray
+                                                        )
+                                                    } else {
+                                                        Color.Transparent
+                                                    },
+                                                    shape = CircleShape
+                                                )
+                                                .padding(
+                                                    start = 12.dp,
+                                                    end = 12.dp,
+                                                    top = 8.dp,
+                                                    bottom = 8.dp
+                                                ),
+                                            verticalAlignment = Alignment.CenterVertically,
+                                            horizontalArrangement = Arrangement.spacedBy(4.dp)
+                                        ) {
+                                            BadgedBox(
+                                                badge = {
+                                                    if (navigationItem.hasNew) {
+//                                Badge()
+                                                    }
+                                                }
+                                            ) {
+                                                BadgedBox(
+                                                    badge = {}
+                                                ) {
+                                                    Icon(
+                                                        imageVector = if (index == bottomNavigationItemIndex) {
+                                                            navigationItem.selectedIcon
+                                                        } else {
+                                                            navigationItem.unSelectedIcon
+                                                        },
+                                                        contentDescription = "${navigationItem.title}'s clicked",
+                                                        tint = changeColorWithDisplayMode(
+                                                            darkColor = DarkColorScheme.primary,
+                                                            lightColor = LightColorScheme.primary
+                                                        )
+                                                    )
+                                                }
+                                            }
+
+                                            AnimatedVisibility(visible = index == bottomNavigationItemIndex) {
+                                                Text(
+                                                    text = navigationItem.title,
+                                                    fontFamily = navigationItem.typeface,
+                                                    fontWeight = FontWeight.Bold,
+                                                    fontSize = 16.sp
+                                                )
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             },
             modifier = Modifier
@@ -202,127 +356,7 @@ fun NavigationSetup(navHostController: NavHostController) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BottomNavigationBarSetUp(navHostController: NavHostController) {
-    var bottomNavigationItemIndex by rememberSaveable {
-        mutableIntStateOf(0)
-    }
-//    AnimatedNavigationBar(
-//        selectedIndex = bottomNavigationItemIndex,
-//        barColor = changeColorWithDisplayMode(
-//            darkColor = DarkColorScheme.surface,
-//            lightColor = LightColorScheme.surface
-//        ),
-//        ballColor = LightPrimaryColor,
-//        cornerRadius = shapeCornerRadius(20.dp),
-//        ballAnimation = Straight(tween(0))
-//    )
 
-    Surface (
-        shadowElevation = 20.dp,
-    ) {
-        Box (
-            modifier = Modifier
-                .background(
-                    color = changeColorWithDisplayMode(
-                        darkColor = DarkColorScheme.surface,
-                        lightColor = LightColorScheme.background
-                    )
-                ).fillMaxWidth(),
-            contentAlignment = Alignment.Center
-        ) {
-            Row (
-                modifier = Modifier.background(
-                    color = if (isSystemInDarkTheme()) {
-                        DarkColorScheme.surface
-                    } else {
-                        LightColorScheme.background
-                    }
-                )
-            ) {
-                BottomNavigationBar.navigationItems.forEachIndexed { index, navigationItem ->
-                    Box(
-                        modifier = Modifier
-                            .padding(10.dp)
-                            .noRippleClickable {
-                                bottomNavigationItemIndex = index
-
-                                when (bottomNavigationItemIndex) {
-                                    0 -> {
-                                        navHostController.popBackStack()
-                                        navHostController.navigate(Screen.ScreenText.route)
-                                    }
-                                    1 -> {
-                                        navHostController.popBackStack()
-                                        navHostController.navigate(Screen.ScreenSearch.route)
-                                    }
-                                    2 -> {
-                                        navHostController.popBackStack()
-                                        navHostController.navigate(Screen.ScreenFavourite.route)
-                                    }
-                                    else -> {
-                                        navHostController.popBackStack()
-                                        navHostController.navigate(Screen.ScreenSetting.route)
-                                    }
-                                }
-                            },
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Row(
-                            modifier = Modifier
-                                .clip(CircleShape)
-                                .background(
-                                    color = if (index == bottomNavigationItemIndex) {
-                                        changeColorWithDisplayMode(
-                                            darkColor = Color.DarkGray,
-                                            lightColor = Color.LightGray
-                                        )
-                                    } else {
-                                        Color.Transparent
-                                    },
-                                    shape = CircleShape
-                                )
-                                .padding(start = 12.dp, end = 12.dp, top = 8.dp, bottom = 8.dp),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(4.dp)
-                        ) {
-                            BadgedBox(
-                                badge = {
-                                    if (navigationItem.hasNew) {
-//                                Badge()
-                                    }
-                                }
-                            ) {
-                                BadgedBox(
-                                    badge = {}
-                                ) {
-                                    Icon(
-                                        imageVector = if (index == bottomNavigationItemIndex) {
-                                            navigationItem.selectedIcon
-                                        } else {
-                                            navigationItem.unSelectedIcon
-                                        },
-                                        contentDescription = "${navigationItem.title}'s clicked",
-                                        tint = changeColorWithDisplayMode(
-                                            darkColor = DarkColorScheme.primary,
-                                            lightColor = LightColorScheme.primary
-                                        )
-                                    )
-                                }
-                            }
-
-                            AnimatedVisibility(visible = index == bottomNavigationItemIndex) {
-                                Text(
-                                    text = navigationItem.title,
-                                    fontFamily = navigationItem.typeface,
-                                    fontWeight = FontWeight.Bold,
-                                    fontSize = 16.sp
-                                )
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
 }
 
 @Composable
